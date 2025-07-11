@@ -17,7 +17,7 @@
                     {% endif %}
                     <ul class="list-unstyled">
                         {% if not user.is_authenticated %}
-                        <li><a href="login" class="text-white">Войти</a></li>
+                        <li><a href="{% url 'ads:login' %}" class="text-white">Войти</a></li>
                         <li><a href="register" class="text-white">Зарегистрироваться</a></li>
                         {% else %}
                         <li>
