@@ -1,14 +1,12 @@
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponse
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView
 
 from ads.forms import AdForm, CustomRegistrationForm, CustomLoginForm
 from ads.models import Ad
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 
 
 class BaseView(TemplateView):
@@ -38,10 +36,6 @@ class CustomLoginView(LoginView):
 
     def get_success_url(self):
         return self.success_url
-
-
-class CustomLogoutView(LogoutView):
-    next_page = reverse_lazy('ads:login')
 
 
 class AdCreateView(LoginRequiredMixin, CreateView):
