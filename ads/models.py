@@ -12,7 +12,8 @@ class Ad(models.Model):
     id = models.AutoField(primary_key=True, verbose_name='id')
     user = models.ForeignKey(
         User, on_delete=models.CASCADE,
-        verbose_name='Пользователь'
+        verbose_name='Пользователь',
+        **NULLABLE
     )
     title = models.CharField(
         max_length=100, verbose_name="Название объявления",
