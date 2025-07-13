@@ -2,7 +2,7 @@ from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DetailView, DeleteView
 
 from ads.forms import AdForm, CustomRegistrationForm, CustomLoginForm
 from ads.models import Ad
@@ -53,3 +53,15 @@ class AdCreateView(LoginRequiredMixin, CreateView):
 
 class AdListView(ListView):
     model = Ad
+
+class AdUpdateView(LoginRequiredMixin, UpdateView):
+    model = Ad
+    form_class = AdForm
+    success_url = reverse_lazy('ads:home')
+
+class AdDetailView(LoginRequiredMixin, DetailView):
+    model = Ad
+
+class AdDeleteView(LoginRequiredMixin, DeleteView):
+    model = Ad
+    success_url = reverse_lazy('ads:home')

@@ -1,0 +1,24 @@
+{% extends 'ads/base.html' %}
+{% block content %}
+<div class="cotainer">
+    <div class="row">
+        <div class="col-12">
+            <form class="row" method="post" enctype="multipart/form-data">
+                <div class="card">
+                    <p class="card-text">Действительно хотите удалить {{ ad.title }}?</p>
+                    <div class="card-body">
+                        {% csrf_token %}
+                    </div>
+                    <button type="submit" class="btn btn-warning">
+                        Удалить товар
+                    </button>
+                     <a type="button"
+                        class="btn btn-lg btn btn-outline-warning"
+                        href="{% url 'ad:base' %}">
+                         Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
