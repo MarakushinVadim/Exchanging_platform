@@ -13,30 +13,11 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ ad.title }}</h5>
                         <p class="card-text">{{ ad.description }}</p>
-                        <a type="button" class="btn btn-lg btn btn-outline-warning" href="#">Купить</a>
                     </div>
                 </div>
             </div>
         </div>
 
-    </div>
-</div>
-<div class="card" style="width: 48rem;">
-    <div class="card shadow-sm">
-        <div>
-            <img src="{{ ad.image_url | media_filter }}" class="card-img-top" alt="...">
-        </div>
-        <div class="card-body">
-            <h4 class="fw-light">{{ ad.title }}</h4>
-            <p class="card-text">{{ ad.description }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-body-secondary">{{ ad.created_at }}</small>
-            </div>
-        </div>
     </div>
 </div>
 {% endblock %}

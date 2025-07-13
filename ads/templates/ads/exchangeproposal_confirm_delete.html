@@ -1,15 +1,5 @@
 {% extends 'ads/base.html' %}
 {% block content %}
-
-{% if messages %}
-    <div class="alert">
-        {% for message in messages %}
-            <div class="alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    </div>
-{% endif %}
 <div class="cotainer">
     <div class="row">
         <div class="col-12">

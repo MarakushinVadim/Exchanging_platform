@@ -18,8 +18,12 @@
                 the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it
                 entirely.</p>
             <p>
+                <a href="{% url 'ads:ad_list' %}" class="btn btn-primary my-2">Список обьявлений</a>
                 <a href="{% url 'ads:ad_create' %}" class="btn btn-primary my-2">Создать обьявление</a>
-                <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+                <a href="{% url 'ads:exchange_proposal_create' %}"
+                   class="btn btn-secondary my-2">Создать предложение обмена</a>
+                <a href="{% url 'ads:exchange_proposal_list' %}"
+                   class="btn btn-secondary my-2">Список предложений</a>
             </p>
         </div>
 

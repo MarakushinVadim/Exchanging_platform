@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.forms import BooleanField, ModelForm
 
-from ads.models import Ad
+from ads.models import Ad, ExchangeProposal
 
 
 class StyleFormMixin:
@@ -14,20 +14,25 @@ class StyleFormMixin:
             else:
                 field.widget.attrs["class"] = "form-control"
 
+
 class CustomRegistrationForm(StyleFormMixin, UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ["username", "email", "password1", "password2"]
+
 
 class CustomLoginForm(StyleFormMixin, AuthenticationForm):
     class Meta:
-        fields = ('username', 'password')
+        fields = ("username", "password")
+
 
 class AdForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Ad
-        exclude = (
-            'id',
-            'user',
-            'created_at'
-        )
+        exclude = ("id", "user", "created_at")
+
+
+class ExchangeProposalForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = ExchangeProposal
+        exclude = ("id", "created_at", "status")

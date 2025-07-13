@@ -15,16 +15,65 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Ad',
+            name="Ad",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='id')),
-                ('title', models.CharField(help_text='Введите название', max_length=100, verbose_name='Название')),
-                ('description', models.TextField(help_text='Введите описание', verbose_name='Описание')),
-                ('image_url', models.ImageField(blank=True, null=True, upload_to='media', verbose_name='Фото')),
-                ('category', models.CharField(help_text='Введите категорию', max_length=100, verbose_name='Категория')),
-                ('condition', models.CharField(choices=[('N', 'Новый'), ('U', 'Б/У')], default='N', max_length=1, verbose_name='Состояние')),
-                ('created_at', models.DateField(blank=True, null=True, verbose_name='Дата создания записи')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                (
+                    "id",
+                    models.AutoField(
+                        primary_key=True, serialize=False, verbose_name="id"
+                    ),
+                ),
+                (
+                    "title",
+                    models.CharField(
+                        help_text="Введите название",
+                        max_length=100,
+                        verbose_name="Название",
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        help_text="Введите описание", verbose_name="Описание"
+                    ),
+                ),
+                (
+                    "image_url",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="media", verbose_name="Фото"
+                    ),
+                ),
+                (
+                    "category",
+                    models.CharField(
+                        help_text="Введите категорию",
+                        max_length=100,
+                        verbose_name="Категория",
+                    ),
+                ),
+                (
+                    "condition",
+                    models.CharField(
+                        choices=[("N", "Новый"), ("U", "Б/У")],
+                        default="N",
+                        max_length=1,
+                        verbose_name="Состояние",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateField(
+                        blank=True, null=True, verbose_name="Дата создания записи"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Пользователь",
+                    ),
+                ),
             ],
         ),
     ]

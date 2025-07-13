@@ -7,42 +7,97 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ads', '0001_initial'),
+        ("ads", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='ad',
-            options={'verbose_name': 'Объявление', 'verbose_name_plural': 'Объявления'},
+            name="ad",
+            options={"verbose_name": "Объявление", "verbose_name_plural": "Объявления"},
         ),
         migrations.AlterField(
-            model_name='ad',
-            name='created_at',
-            field=models.DateField(auto_now_add=True, null=True, verbose_name='Дата создания объявления'),
+            model_name="ad",
+            name="created_at",
+            field=models.DateField(
+                auto_now_add=True, null=True, verbose_name="Дата создания объявления"
+            ),
         ),
         migrations.AlterField(
-            model_name='ad',
-            name='description',
-            field=models.TextField(help_text='Введите описание объявления', verbose_name='Описание объявления'),
+            model_name="ad",
+            name="description",
+            field=models.TextField(
+                help_text="Введите описание объявления",
+                verbose_name="Описание объявления",
+            ),
         ),
         migrations.AlterField(
-            model_name='ad',
-            name='title',
-            field=models.CharField(help_text='Введите название объявления', max_length=100, verbose_name='Название объявления'),
+            model_name="ad",
+            name="title",
+            field=models.CharField(
+                help_text="Введите название объявления",
+                max_length=100,
+                verbose_name="Название объявления",
+            ),
         ),
         migrations.CreateModel(
-            name='ExchangeProposal',
+            name="ExchangeProposal",
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='id')),
-                ('comment', models.TextField(help_text='Напишите комментарий к предложению обмена', verbose_name='комментарий')),
-                ('status', models.CharField(choices=[('A', 'ожидает'), ('T', 'принята'), ('R', 'отклонена')], default='A', max_length=1, verbose_name='Статус сделки')),
-                ('created_at', models.DateField(auto_now_add=True, null=True, verbose_name='Дата предложения')),
-                ('ad_receiver', models.ForeignKey(help_text='Выберете объявление на которое хотите обменяться', on_delete=django.db.models.deletion.CASCADE, related_name='you_receive', to='ads.ad', verbose_name='объявление')),
-                ('ad_sender', models.ForeignKey(help_text='Выберете свое обьявление для обмена', on_delete=django.db.models.deletion.CASCADE, related_name='you_send', to='ads.ad', verbose_name='объявление')),
+                (
+                    "id",
+                    models.AutoField(
+                        primary_key=True, serialize=False, verbose_name="id"
+                    ),
+                ),
+                (
+                    "comment",
+                    models.TextField(
+                        help_text="Напишите комментарий к предложению обмена",
+                        verbose_name="комментарий",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("A", "ожидает"),
+                            ("T", "принята"),
+                            ("R", "отклонена"),
+                        ],
+                        default="A",
+                        max_length=1,
+                        verbose_name="Статус сделки",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateField(
+                        auto_now_add=True, null=True, verbose_name="Дата предложения"
+                    ),
+                ),
+                (
+                    "ad_receiver",
+                    models.ForeignKey(
+                        help_text="Выберете объявление на которое хотите обменяться",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="you_receive",
+                        to="ads.ad",
+                        verbose_name="объявление",
+                    ),
+                ),
+                (
+                    "ad_sender",
+                    models.ForeignKey(
+                        help_text="Выберете свое обьявление для обмена",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="you_send",
+                        to="ads.ad",
+                        verbose_name="объявление",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Сделка',
-                'verbose_name_plural': 'Сделки',
+                "verbose_name": "Сделка",
+                "verbose_name_plural": "Сделки",
             },
         ),
     ]
