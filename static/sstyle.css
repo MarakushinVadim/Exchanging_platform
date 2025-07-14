@@ -1,0 +1,342 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.center {
+  padding-left: calc(50% - 600px);
+  padding-right: calc(50% - 600px);
+}
+
+.top {
+  height: 735px;
+  background-image: url(style_img/bg-3.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+header {
+  height: 76px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.header_input {
+  width: 288px;
+  height: 41px;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 20px;
+  background: rgb(255, 255, 255);
+  background-color: transparent;
+  outline: none;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0%;
+  text-align: left;
+  color: #FFFFFF;
+  padding-left: 32px;
+  padding-right: 32px;
+  box-sizing: border-box;
+}
+
+.header_input::-moz-placeholder {
+  color: #FFFFFF;
+}
+
+.header_input::placeholder {
+  color: #FFFFFF;
+}
+
+.top_menu {
+  display: flex;
+  gap: 32px;
+}
+
+.header_link {
+  font-size: 16px;
+  line-height: 20px;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.header_link:hover {
+  text-decoration: underline;
+}
+
+.titler {
+  color: #FFFFFF;
+}
+
+.title {
+  font-size: 32px;
+  line-height: 48px;
+  font-weight: 600;
+  margin-top: 64px;
+  margin-bottom: 16px;
+}
+
+.desc {
+  line-height: 32px;
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.ad_list_top {
+  height: 350px;
+  background-image: url(style_img/bg_ad_all.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  margin-bottom: 32px;
+}
+
+.ad_list_titler {
+  color: #FFFFFF;
+  margin-top: 150px;
+}
+
+.ad_box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  flex-direction: column;
+}
+
+.ad {
+  display: flex;
+  -moz-column-gap: 16px;
+       column-gap: 16px;
+}
+
+.ad_img {
+  width: 180px;
+}
+
+.ad_body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.ad_title {
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.ad_description {
+  font-size: 14px;
+  line-height: 17px;
+  color: #888888;
+  margin-bottom: 12px;
+}
+
+.ad_card_button {
+  height: 37px;
+  width: 200px;
+  box-sizing: border-box;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 50px;
+  color: rgb(2, 2, 2);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+  transition: all 0.3s;
+}
+
+.ad_card_button:hover {
+  border-radius: 50px;
+  background: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+}
+
+.breadcrumbs {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.breadcrumbs_link {
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-decoration: none;
+}
+
+.border {
+  border: 0.5px solid rgb(202, 205, 216);
+  margin-bottom: 16px;
+}
+
+.ad_detail_top {
+  height: 350px;
+  background-image: url(media/style_img/ad_detail_bg.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.ad_detail_img {
+  width: 350px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 32px;
+}
+
+.ad_body_detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 40px;
+}
+
+.ad_detail_card_button_swap {
+  height: 37px;
+  width: 200px;
+  box-sizing: border-box;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 50px;
+  color: rgb(2, 2, 2);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+  transition: all 0.3s;
+}
+.ad_detail_card_button_swap:hover {
+  border-radius: 50px;
+  background: rgb(19, 155, 14);
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+}
+
+.ad_detail_card_button_change {
+  height: 37px;
+  width: 200px;
+  box-sizing: border-box;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 50px;
+  color: rgb(2, 2, 2);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+  transition: all 0.3s;
+}
+.ad_detail_card_button_change:hover {
+  border-radius: 50px;
+  background: rgb(206, 209, 21);
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+}
+
+.ad_detail_card_button_del {
+  height: 37px;
+  width: 200px;
+  box-sizing: border-box;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 50px;
+  color: rgb(2, 2, 2);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+  transition: all 0.3s;
+}
+.ad_detail_card_button_del:hover {
+  border-radius: 50px;
+  background: rgb(160, 25, 7);
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+}
+
+.ad_card_button:hover {
+  border-radius: 50px;
+  background: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+}
+.login-box {
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.form-control {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  height: 16px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0%;
+  text-align: left;
+  color: #FFFFFF;
+  padding-left: 32px;
+  padding-right: 32px;
+  box-sizing: border-box;
+}
+
+.login-btn {
+  margin-top: 16px;
+  height: 37px;
+  width: 330px;
+  box-sizing: border-box;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 50px;
+  color: rgb(2, 2, 2);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+  transition: all 0.3s;
+}
+.login-btn:hover {
+  border-radius: 50px;
+  background: rgb(255, 255, 255);
+  border-radius: 50px;
+  background: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: 0px;
+}
