@@ -1,42 +1,22 @@
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <title>Exchanging_platform</title>
-</head>
-<body>
-{% include 'ads/includes/inc_menu.html' %}
-<section class="py-5 text-center container">
-    <div class="row py-lg-5">
-        <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Album example</h1>
-            <p class="lead text-body-secondary">Something short and leading about the collection below—its contents,
-                the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it
-                entirely.</p>
-            <p>
-                <a href="{% url 'ads:ad_list' %}" class="btn btn-primary my-2">Список обьявлений</a>
-                <a href="{% url 'ads:ad_create' %}" class="btn btn-primary my-2">Создать обьявление</a>
-                <a href="{% url 'ads:exchange_proposal_create' %}"
-                   class="btn btn-secondary my-2">Создать предложение обмена</a>
-                <a href="{% url 'ads:exchange_proposal_list' %}"
-                   class="btn btn-secondary my-2">Список предложений</a>
-            </p>
-        </div>
+{% include 'ads/includes/head.html' %}
 
+<div class="top center">
+    {% include 'ads/includes/inc_menu.html' %}
+
+    <div class="titler">
+
+
+        <h1 class="title">Второй шанс вашим вещам — площадка обмена</h1>
+        <p class="desc">Обменивайте и продавайте любимые вещи легко и безопасно. Дарим вещам новую жизнь, а вам —
+            экономию и экологичное потребление. Присоединяйтесь к сообществу осознанных покупателей!</p>
     </div>
+    {% block content %}
 
-</section>
+    {% endblock %}
+</div>
 
 
-{% block content %}
-
-{% endblock %}
-
-{% include 'ads/includes/inc_footer.html' %}
-<script src="{% static 'script.js' %}"></script>
 </body>
 </html>

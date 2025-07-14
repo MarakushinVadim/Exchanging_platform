@@ -1,41 +1,70 @@
-{% extends 'ads/base.html' %}
+{% load static %}
 {% load my_tags %}
-{% block content %}
 {% if messages %}
-    <div class="alert">
-        {% for message in messages %}
-            <div class="alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-        {% endfor %}
-    </div>
-{% endif %}
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    {% for ad in object_list %}
-    <div class="col">
-        <div class="card" style="width: 18rem;">
-            <div class="card shadow-sm">
-                <img src="{{ ad.image_url | media_filter }}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h4 class="fw-light">{{ ad.title | title_filter }}</h4>
-                    <p class="card-text">{{ ad.description | description_filter}}</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a type="button" class="btn btn-sm btn-outline-secondary"
-                               href="{% url 'ads:ad_detail' ad.pk %}">Подробнее</a>
 
-                            <a type="button" class="btn btn-sm btn-outline-secondary"
-                            href="{% url 'ads:ad_update' ad.pk %}">Изменить</a>
-                            <a type="button" class="btn btn-sm btn-outline-secondary"
-                            href="{% url 'ads:ad_delete' ad.pk %}">Удалить</a>
+<!--{% endif %}-->
+<!--<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">-->
+<!--    {% for ad in object_list %}-->
+<!--    <div class="col">-->
+<!--        <div class="card" style="width: 18rem;">-->
+<!--            <div class="card shadow-sm">-->
+<!--                <img src="{{ ad.image_url | media_filter }}" class="card-img-top" alt="...">-->
+<!--                <div class="card-body">-->
+<!--                    <h4 class="fw-light">{{ ad.title | title_filter }}</h4>-->
+<!--                    <p class="card-text">{{ ad.description | description_filter}}</p>-->
+<!--                    <div class="d-flex justify-content-between align-items-center">-->
+<!--                        <div class="btn-group">-->
+<!--                            <a type="button" class="btn btn-sm btn-outline-secondary"-->
+<!--                               href="{% url 'ads:ad_detail' ad.pk %}">Подробнее</a>-->
 
-                        </div>
-                        <small class="text-body-secondary">{{ ad.created_at }}</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--                            <a type="button" class="btn btn-sm btn-outline-secondary"-->
+<!--                               href="{% url 'ads:ad_update' ad.pk %}">Изменить</a>-->
+<!--                            <a type="button" class="btn btn-sm btn-outline-secondary"-->
+<!--                               href="{% url 'ads:ad_delete' ad.pk %}">Удалить</a>-->
+
+<!--                        </div>-->
+<!--                        <small class="text-body-secondary">{{ ad.created_at }}</small>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    {% endfor %}-->
+<!--</div>-->
+{% include 'ads/includes/head.html' %}
+<div class="alert">
+    {% for message in messages %}
+    <div class="alert-{{ message.tags }}">
+        {{ message }}
     </div>
     {% endfor %}
 </div>
-{% endblock %}
+<div class="ad_list_top center">
+    {% include 'ads/includes/inc_menu.html' %}
+    <div class="ad_list_titler">
+        <h1 class="ad_list_title">Список обьявлений</h1>
+    </div>
+</div>
+<nav class="breadcrumbs center">
+    <a href="{% url 'ads:home' %}" class="breadcrumbs_link">Главная</a>
+    <a href="" class="breadcrumbs_link">Добавить обьявление</a>
+</nav>
+<div class="center">
+    <div class="border"></div>
+</div>
+<div class="ad_box center">
+    {% for ad in object_list %}
+    <div class="ad">
+        <img src="{{ ad.image_url | media_filter }}" alt="" class="ad_img">
+        <div class="ad_body">
+            <h3 class="ad_title">{{ ad.title }}</h3>
+            <p class="ad_description">{{ ad.description }}</p>
+            <a href="{% url 'ads:ad_detail' ad.pk %}"><button class="ad_card_button">Подробнее</button></a>
+        </div>
+    </div>
+    <div class="border"></div>
+    {% endfor %}
+</div>
+
+</body>
+
