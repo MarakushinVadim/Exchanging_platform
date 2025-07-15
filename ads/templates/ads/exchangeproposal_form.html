@@ -1,29 +1,23 @@
 {% extends 'ads/base.html' %}
 {% block content %}
 
-<div class="container">
-    <form class="row" method="post" enctype="multipart/form-data">
-        <div class="col-12">
-            <div class="card">
-                {% if object %}
-                <p class="card-text">Редактирование записи</p>
-                {% else %}
-                <p class="card-text">Создание записи</p>
-                {% endif %}
-                <div class="card-body">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    {% if object %}
-                    Изменить запись
-                    {% else %}
-                    Создать запись
-                    {% endif %}
-                </button>
-            </div>
-        </div>
-    </form>
+<div class="create-card">
+    {% if object %}
+    <h1 class="ad_list_title">Редактирование записи</h1>
+    {% else %}
+    <h1 class="ad_list_title">Создание записи</h1>
+    {% endif %}
+    <div class="create-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+    </div>
+    <button type="submit" class="login-btn">
+        {% if object %}
+        Изменить запись
+        {% else %}
+        Создать запись
+        {% endif %}
+    </button>
 </div>
 
 {% endblock %}

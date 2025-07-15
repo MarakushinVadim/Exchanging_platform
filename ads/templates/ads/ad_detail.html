@@ -2,22 +2,41 @@
 {% load my_tags %}
 {% block content %}
 
-<div class="container-fluid">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="{{ ad.image_url | media_filter }}" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ ad.title }}</h5>
-                        <p class="card-text">{{ ad.description }}</p>
-                    </div>
-                </div>
+<div class="ad_detail_top center">
+    {% include 'ads/includes/inc_menu.html' %}
+    <nav class="breadcrumbs center">
+        <a href="{% url 'ads:home' %}" class="breadcrumbs_link">Главная</a>
+        <a href="" class="breadcrumbs_link">Добавить обьявление</a>
+    </nav>
+    <div class="center">
+        <div class="border"></div>
+    </div>
+    <div class="ad">
+        <a href="{{ ad.image_url | media_filter }}" target="_self">
+            <img src="{{ ad.image_url | media_filter }}" alt="" class="ad_detail_img">
+        </a>
+        <div class="ad_body_detail">
+            <h3 class="ad_title">{{ ad.title }}</h3>
+            <p class="ad_description">{{ ad.description }}</p>
+            <div class="about_ad_group">
+                <p class="ad_description">Создано пользователем - {{ ad.user.username }}</p>
+                <p class="ad_description">Категория - {{ ad.category }}</p>
+                <p class="ad_description">Состояние - {{ ad.get_condition_display }}</p>
+                <p class="ad_description">Опубликовано - {{ ad.created_at }}</p>
+            </div>
+            <div class="btn-group">
+                {% if request.user != ad.user %}
+                <a href="{% url 'ads:exchange_proposal_create' %}">
+                    <button class="ad_detail_card_button_swap">Предлжить обмен</button></a>
+                {% else %}
+                <a href="{% url 'ads:ad_update' ad.pk %}">
+                    <button class="ad_detail_card_button_change">Изменить</button></a>
+                <a href="{% url 'ads:ad_delete' ad.pk %}">
+                    <button class="ad_detail_card_button_del">Удалить</button></a>
+                {% endif %}
             </div>
         </div>
-
     </div>
 </div>
+
 {% endblock %}

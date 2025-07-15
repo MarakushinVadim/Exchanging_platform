@@ -189,8 +189,8 @@ header {
 }
 
 .ad_detail_top {
-  height: 350px;
-  background-image: url(media/style_img/ad_detail_bg.jpg);
+  height: 70px;
+  background-image: url(style_img/ad_detail_bg.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -298,9 +298,9 @@ header {
 .login-box {
   padding: 30px;
   border-radius: 15px;
-  background-color: rgba(255, 255, 255, 0.5);
+  color: rgb(255, 255, 255);
+  background-color: rgb(168 156 144 / 60%);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  color: #FFFDD0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -310,7 +310,7 @@ header {
 
 .form-control {
   border: none;
-  border-bottom: solid 1px ;
+  border-bottom: solid 1px rgb(255, 255, 255);
   background-color: transparent;
   outline: none;
   height: 20px;
@@ -327,14 +327,14 @@ header {
 }
 
 .login-btn {
+  background: rgb(127 103 91 / 80%);
+  color: rgb(255, 255, 255);
+  border: 1px solid rgb(255, 255, 255);
   margin-top: 16px;
   height: 37px;
   width: 330px;
   box-sizing: border-box;
-  border: 1px solid rgb(0, 0, 0);
   border-radius: 50px;
-  background: #FFFDD0;
-  color: rgb(2, 2, 2);
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
@@ -351,4 +351,37 @@ header {
   font-weight: 400;
   line-height: 17px;
   letter-spacing: 0px;
+}
+
+.create-card{
+  padding: 30px;
+  border-radius: 15px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(168 156 144 / 60%);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  font-size: 20px;
+}
+
+.create-form{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: rgb(255, 255, 255) !important;
+    -webkit-box-shadow: none;
+    transition: background-color 5000s ease-in-out 0s;
+}
+input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: light-dark(rgb(232, 240, 254), rgba(70, 90, 126, 0.4)) !important;
+    color: fieldtext !important;
 }
