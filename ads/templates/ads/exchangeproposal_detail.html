@@ -2,29 +2,14 @@
 {% load my_tags %}
 {% block content %}
 
-<div class="container-fluid">
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="{{ ed.ad_sender.image_url | media_filter }}" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ ed.ad_sender.title }}</h5>
-                        <a type="button" class="btn btn-lg btn btn-outline-warning" href="#">Купить</a>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ ed.ad_receiver.title }}</h5>
-                        <a type="button" class="btn btn-lg btn btn-outline-warning" href="#">Купить</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="card-body">
+    <h5 class="card-title">Предлагается{{ object.ad_sender }}</h5>
+    <p class="card-text">{{ object.ad_sender.title }}</p>
 
-    </div>
+    <h5 class="card-title">Получить{{ object.ad_receiver }}</h5>
+    <p class="card-text">{{ object.ad_receiver.title }}</p>
+
+
 </div>
 
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib.auth import login
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, HttpResponseForbidden
 from django.views.generic import (
     TemplateView,
     CreateView,
@@ -9,12 +9,13 @@ from django.views.generic import (
     DetailView,
     DeleteView,
 )
+from django.db.models import Q
 
 from ads.forms import (
     AdForm,
     CustomRegistrationForm,
     CustomLoginForm,
-    ExchangeProposalForm,
+    ExchangeProposalForm, ExchangeProposalUpdateForm,
 )
 from ads.models import Ad, ExchangeProposal
 from django.contrib.auth.views import LoginView
@@ -23,8 +24,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.urls import reverse_lazy
-
-
 
 
 class OwnerMixin(LoginRequiredMixin):
@@ -122,11 +121,23 @@ class AdDeleteView(OwnerMixin, DeleteView):
 class ExchangeProposalListView(ListView):
     model = ExchangeProposal
 
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        ads_user = ExchangeProposal.objects.filter(
+            Q(ad_sender__user=self.request.user) | Q(ad_receiver__user=self.request.user))
+        context_data["object_list"] = ads_user
+        return context_data
+
 
 class ExchangeProposalCreateView(CreateView):
     model = ExchangeProposal
     form_class = ExchangeProposalForm
     success_url = reverse_lazy("ads:home")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class ExchangeProposalDetailView(DetailView):
@@ -135,8 +146,15 @@ class ExchangeProposalDetailView(DetailView):
 
 class ExchangeProposalUpdateView(UpdateView):
     model = ExchangeProposal
-    form_class = ExchangeProposalForm
+    form_class = ExchangeProposalUpdateForm
     success_url = reverse_lazy("ads:home")
+
+    def dispatch(self, request, *args, **kwargs):
+        offer = self.get_object()
+        if offer.ad_receiver.user == request.user or offer.ad_sender.user == request.user:
+            return super().dispatch(request, *args, **kwargs)
+        return HttpResponseForbidden("Доступ запрещен")
+
 
 
 class ExchangeProposalDeleteView(DeleteView):

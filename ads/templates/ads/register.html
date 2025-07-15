@@ -1,17 +1,11 @@
 {% extends 'ads/base.html' %}
 {% block content %}
-<div class="container">
-    <form class="row" method="post" enctype="multipart/form-data">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <br>
-                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-                </div>
-            </div>
-        </div>
+<div class="login-box center">
+    <h1 class="ad_list_title">Регистрация</h1>
+        <form class="row" method="post" enctype="multipart/form-data" class="login-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="login-btn">Отправить</button>
     </form>
 </div>
 {% endblock %}

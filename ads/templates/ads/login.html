@@ -1,15 +1,12 @@
 {% extends 'ads/base.html' %}
 {% block content %}
 <div class="login-box center">
-
     <h1 class="ad_list_title">Авторизация</h1>
-
     <form class="row" method="post" enctype="multipart/form-data" class="login-form">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="login-btn">Отправить</button>
     </form>
-
 </div>
 <!--<div class="login-box center">-->
 <!--    <h1 class="ad_list_title">Авторизация</h1>-->
