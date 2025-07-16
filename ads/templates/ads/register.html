@@ -2,10 +2,46 @@
 {% block content %}
 <div class="login-box center">
     <h1 class="ad_list_title">Регистрация</h1>
-        <form class="row" method="post" enctype="multipart/form-data" class="login-form">
+    <form class="row" method="post" enctype="multipart/form-data" class="login-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="login-btn">Отправить</button>
+        <p class="form-input">
+            <label for="id_username"></label>
+            <input type="text" name="username" value="@FDFFEff" maxlength="150" autofocus="" class="form-control"
+                   required="" aria-describedby="id_username_helptext" id="id_username" placeholder="Имя пользователя">
+            <span class="helptext" id="id_username_helptext">
+                Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.</span>
+        </p>
+        <p class="form-input">
+            <label for="id_email"></label>
+            <input type="email" name="email" value="FEEFfew@mail.ru" maxlength="254"
+                   class="form-control" id="id_email" placeholder="Адрес электронной почты">
+        </p>
+        <p class="form-input">
+            <label for="id_password1"></label>
+            <input type="password" name="password1" autocomplete="new-password" class="form-control" required=""
+                   aria-describedby="id_password1_helptext" id="id_password1" placeholder="Пароль">
+            <span class="helptext" id="id_password1_helptext"></span></p>
+        <ul>
+            <li>Пароль не должен быть слишком похож на другую вашу личную информацию.</li>
+            <li>Ваш пароль должен содержать как минимум 8 символов.</li>
+            <li>Пароль не должен быть слишком простым и распространенным.</li>
+            <li>Пароль не может состоять только из цифр.</li>
+        </ul>
+        <ul class="errorlist" id="id_password2_error">
+            <li>Введенные пароли не совпадают.</li>
+        </ul>
+        <p class="form-input">
+            <label for="id_password2"></label>
+            <input type="password" name="password2" autocomplete="new-password" class="form-control" required=""
+                   aria-invalid="true" aria-describedby="id_password2_helptext id_password2_error" id="id_password2"
+                    placeholder="Повторите пароль">
+            <span class="helptext"
+                  id="id_password2_helptext">Для подтверждения введите, пожалуйста, пароль ещё раз.</span>
+        </p>
+        <div class ="button_center">
+            <button type="submit" class="login-btn">Отправить</button>
+        </div>
+
     </form>
 </div>
 {% endblock %}

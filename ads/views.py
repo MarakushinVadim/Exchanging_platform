@@ -1,6 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponseNotFound, HttpResponseForbidden
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import HttpResponseForbidden
 from django.views.generic import (
     TemplateView,
     CreateView,
@@ -87,7 +88,45 @@ class AdCreateView(LoginRequiredMixin, CreateView):
 
 class AdListView(ListView):
     model = Ad
+    paginate_by = 10
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        query = self.request.GET.get("q")
+        category = self.request.GET.get("category")
+        condition = self.request.GET.get("condition")
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) | Q(description__icontains=query)
+            )
+        if category:
+            queryset = queryset.filter(category=category)
+        if condition:
+            queryset = queryset.filter(condition=condition)
+
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['categories'] = Ad.objects.order_by("category").values_list("category", flat=True).distinct()
+
+        context["selected_category"] = self.request.GET.get('category')
+        context['selected_status'] = self.request.GET.get('status')
+        page = self.request.GET.get('page')
+        paginator = Paginator(self.get_queryset(), self.paginate_by)
+        try:
+            ads = paginator.page(page)
+        except PageNotAnInteger:
+            ads = paginator.page(1)
+        except EmptyPage:
+            ads = paginator.page(paginator.num_pages)
+
+        context['ads'] = ads
+        context['paginator'] = paginator
+
+        return context
 
 class AdUpdateView(OwnerMixin, UpdateView):
     model = Ad
@@ -154,9 +193,3 @@ class ExchangeProposalUpdateView(UpdateView):
         if offer.ad_receiver.user == request.user or offer.ad_sender.user == request.user:
             return super().dispatch(request, *args, **kwargs)
         return HttpResponseForbidden("Доступ запрещен")
-
-
-
-class ExchangeProposalDeleteView(DeleteView):
-    model = ExchangeProposal
-    success_url = reverse_lazy("ads:home")

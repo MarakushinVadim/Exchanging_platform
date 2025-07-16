@@ -27,6 +27,7 @@ header {
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
+  margin-bottom: 32px;
 }
 
 .header_input {
@@ -74,6 +75,11 @@ header {
 }
 
 .titler {
+  color: #FFFFFF;
+}
+
+.titler_base {
+  display: none;
   color: #FFFFFF;
 }
 
@@ -308,22 +314,32 @@ header {
   font-size: 20px;
 }
 
+.form-input{
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
 .form-control {
+  text-align: center;
   border: none;
   border-bottom: solid 1px rgb(255, 255, 255);
   background-color: transparent;
   outline: none;
-  height: 20px;
-  font-size: 20px;
+  height: 24px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 400;
   line-height: 20px;
-  letter-spacing: 0%;
-  text-align: left;
-  color: #FFFDD0;
+  color: rgb(255, 255, 255);
   padding-left: 32px;
   padding-right: 32px;
   box-sizing: border-box;
+}
+
+.button_center {
+  display: flex;
+  justify-content: center;
 }
 
 .login-btn {
@@ -366,10 +382,49 @@ header {
   font-size: 20px;
 }
 
+
+.filter-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  row-gap: 16px;
+  padding-bottom: 16px;
+}
+
 .create-form{
     display: flex;
     flex-direction: column;
     gap: 16px;
+}
+
+.filter-box__select {
+  font-size: 16px;
+  padding-right: 23px;
+  padding-left: 23px;
+  width: 200px;
+  height: 30px;
+  box-sizing: border-box;
+  border: 1px solid rgb(196, 196, 196);
+  border-radius: 20px;
+}
+
+.pagination-box {
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-link {
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  text-decoration: none;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.pagination-link:hover {
+  text-decoration: underline;
 }
 
 input:-webkit-autofill,

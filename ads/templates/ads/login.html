@@ -2,10 +2,21 @@
 {% block content %}
 <div class="login-box center">
     <h1 class="ad_list_title">Авторизация</h1>
-    <form class="row" method="post" enctype="multipart/form-data" class="login-form">
+    <form class="row" method="post" enctype="multipart/form-data" >
         {% csrf_token %}
-        {{ form.as_p }}
+        <p class="form-input">
+            <label for="id_username"></label>
+            <input type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username"
+                   maxlength="150" class="form-control" required="" id="id_username" placeholder="Имя пользователя">
+        </p>
+        <p class="form-input">
+            <label for="id_password"></label>
+            <input type="password" name="password" autocomplete="current-password" class="form-control"
+                   required="" id="id_password" placeholder="Пароль">
+        </p>
         <button type="submit" class="login-btn">Отправить</button>
     </form>
 </div>
 {% endblock %}
+
+

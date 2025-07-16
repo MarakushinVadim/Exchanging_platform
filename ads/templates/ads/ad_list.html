@@ -2,36 +2,6 @@
 {% load my_tags %}
 {% if messages %}
 
-<!--{% endif %}-->
-<!--<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">-->
-<!--    {% for ad in object_list %}-->
-<!--    <div class="col">-->
-<!--        <div class="card" style="width: 18rem;">-->
-<!--            <div class="card shadow-sm">-->
-<!--                <img src="{{ ad.image_url | media_filter }}" class="card-img-top" alt="...">-->
-<!--                <div class="card-body">-->
-<!--                    <h4 class="fw-light">{{ ad.title | title_filter }}</h4>-->
-<!--                    <p class="card-text">{{ ad.description | description_filter}}</p>-->
-<!--                    <div class="d-flex justify-content-between align-items-center">-->
-<!--                        <div class="btn-group">-->
-<!--                            <a type="button" class="btn btn-sm btn-outline-secondary"-->
-<!--                               href="{% url 'ads:ad_detail' ad.pk %}">Подробнее</a>-->
-
-<!--                            <a type="button" class="btn btn-sm btn-outline-secondary"-->
-<!--                               href="{% url 'ads:ad_update' ad.pk %}">Изменить</a>-->
-<!--                            <a type="button" class="btn btn-sm btn-outline-secondary"-->
-<!--                               href="{% url 'ads:ad_delete' ad.pk %}">Удалить</a>-->
-
-<!--                        </div>-->
-<!--                        <small class="text-body-secondary">{{ ad.created_at }}</small>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    {% endfor %}-->
-<!--</div>-->
-{% include 'ads/includes/head.html' %}
 <div class="alert">
     {% for message in messages %}
     <div class="alert-{{ message.tags }}">
@@ -39,6 +9,8 @@
     </div>
     {% endfor %}
 </div>
+{% endif %}
+{% include 'ads/includes/head.html' %}
 <div class="ad_list_top center">
     {% include 'ads/includes/inc_menu.html' %}
     <div class="ad_list_titler">
@@ -47,11 +19,41 @@
 </div>
 <nav class="breadcrumbs center">
     <a href="{% url 'ads:home' %}" class="breadcrumbs_link">Главная</a>
-    <a href="" class="breadcrumbs_link">Добавить обьявление</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'ads:ad_create' %}" class="breadcrumbs_link">Добавить обьявление</a>
+    {% endif %}
 </nav>
 <div class="center">
     <div class="border"></div>
 </div>
+
+<form method="GET">
+    <div class="filter-box center" >
+        <div>
+            <label class="desc">Категория:</label>
+            <select name="category" class="filter-box__select">
+                <option value="">Все категории</option>
+                {% for category in categories %}
+                <option value="{{ category }}"
+                        {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label class="desc">Состояние:</label>
+            <select name="condition" class="filter-box__select">
+                <option value="">Все состояния</option>
+                <option value="{{ 'N' }}" {% if selected_condition == 'N' %}selected{% endif %}>Новое</option>
+                <option value="{{ 'U' }}" {% if selected_condition == 'U' %}selected{% endif %}>Б/У</option>
+            </select>
+        </div>
+        <button type="submit" class="ad_card_button" style="height: 30px;">Применить фильтр</button>
+    </div>
+    <div class="center">
+        <div class="border"></div>
+    </div>
+</form>
+
 <div class="ad_box center">
     {% for ad in object_list %}
     <div class="ad">
@@ -63,8 +65,24 @@
         </div>
     </div>
     <div class="border"></div>
+    {% empty %}
+    <h1 class="ad_list_title">Товары не найдены</h1>
     {% endfor %}
 </div>
+<div class="pagination-box">
+    {% if ads.has_previous %}
+    <a href="?page={{ ads.previous_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_condition %}&condition={{ selected_condition }}{% endif %}" class="pagination-link">
+        Предыдущая
+    </a>
+    {% endif %}
 
+    Страница {{ ads.number }} из {{ ads.paginator.num_pages }}
+
+    {% if ads.has_next %}
+    <a href="?page={{ ads.next_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_condition %}&condition={{ selected_condition }}{% endif %}" class="pagination-link">
+        Следующая
+    </a>
+    {% endif %}
+</div>
 </body>
 

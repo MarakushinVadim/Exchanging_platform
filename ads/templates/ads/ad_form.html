@@ -1,29 +1,53 @@
 {% extends 'ads/base.html' %}
 {% block content %}
 
-<div class="container">
+<div class="login-box center">
+    {% if object %}
+    <h1 class="ad_list_title">Редактирование записи</h1>
+    {% else %}
+    <h1 class="ad_list_title">Создание записи</h1>
+    {% endif %}
     <form class="row" method="post" enctype="multipart/form-data">
-        <div class="col-12">
-            <div class="card">
-                {% if object %}
-                <p class="card-text">Редактирование записи</p>
-                {% else %}
-                <p class="card-text">Создание записи</p>
-                {% endif %}
-                <div class="card-body">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    {% if object %}
-                    Изменить запись
-                    {% else %}
-                    Создать запись
-                    {% endif %}
-                </button>
-            </div>
-        </div>
+        {% csrf_token %}
+            {{ form.as_p }}
+<!--        <p class="form-input">-->
+<!--            <label for="id_title"></label>-->
+<!--            <input type="text" name="title" maxlength="100" class="form-control"-->
+<!--                   required="" aria-describedby="id_title_helptext" id="id_title"-->
+<!--                   placeholder="Название объявления">-->
+<!--        </p>-->
+<!--        <p class="form-input">-->
+<!--            <label for="id_description"></label>-->
+<!--            <textarea name="description" cols="40" rows="10" class="form-control" required=""-->
+<!--                      aria-describedby="id_description_helptext" id="id_description"-->
+<!--                      placeholder="Описание объявления"></textarea>-->
+<!--        </p>-->
+<!--        <p class="form-input">-->
+<!--            <label for="id_image_url">Фото:</label>-->
+<!--            <input type="file" name="image_url" accept="image/*" class="form-control" id="id_image_url">-->
+<!--        </p>-->
+<!--        <p class="form-input">-->
+<!--            <label for="id_category"></label>-->
+<!--            <input type="text" name="category" maxlength="100" class="form-control" required=""-->
+<!--                   aria-describedby="id_category_helptext" id="id_category" placeholder="Категория">-->
+<!--        </p>-->
+<!--        <p class="form-input">-->
+<!--            <label for="id_condition">Состояние:</label>-->
+<!--            <select name="condition" class="form-control" id="id_condition">-->
+<!--                <option value="N" selected="">Новый</option>-->
+<!--                <option value="U">Б/У</option>-->
+<!--            </select>-->
+<!--        </p>-->
+        <button type="submit" class="login-btn">Отправить</button>
     </form>
 </div>
+
+
+{% if object %}
+Изменить запись
+{% else %}
+Создать запись
+{% endif %}
+
 
 {% endblock %}
