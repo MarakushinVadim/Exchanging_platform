@@ -24,7 +24,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 
 class OwnerMixin(LoginRequiredMixin):
@@ -134,8 +134,7 @@ class AdUpdateView(OwnerMixin, UpdateView):
     success_url = reverse_lazy("ads:home")
 
 
-class AdDetailView(LoginRequiredMixin, DetailView):
-    model = Ad
+
 
 
 class AdDeleteView(OwnerMixin, DeleteView):
@@ -157,15 +156,8 @@ class AdDeleteView(OwnerMixin, DeleteView):
         return response
 
 
-class ExchangeProposalListView(ListView):
-    model = ExchangeProposal
-
-    def get_context_data(self, *args, **kwargs):
-        context_data = super().get_context_data(*args, **kwargs)
-        ads_user = ExchangeProposal.objects.filter(
-            Q(ad_sender__user=self.request.user) | Q(ad_receiver__user=self.request.user))
-        context_data["object_list"] = ads_user
-        return context_data
+class AdDetailView(LoginRequiredMixin, DetailView):
+    model = Ad
 
 
 class ExchangeProposalCreateView(CreateView):
@@ -177,6 +169,73 @@ class ExchangeProposalCreateView(CreateView):
         kwargs = super().get_form_kwargs()
         kwargs['user'] = self.request.user
         return kwargs
+
+    def get_initial(self):
+        initial = super().get_initial()
+        user_ad = Ad.objects.get(id=self.kwargs['pk'])
+        initial['ad_receiver'] = user_ad
+        return initial
+
+
+
+class ExchangeProposalListView(ListView):
+    model = ExchangeProposal
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        sender = self.request.GET.get("sender")
+        receiver = self.request.GET.get("receiver")
+        if sender:
+            queryset = queryset.filter(ad_sender__user=sender)
+        if receiver:
+            queryset = queryset.filter(ad_receiver=receiver)
+        return queryset
+
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        ads_user = ExchangeProposal.objects.filter(
+            Q(ad_sender__user=self.request.user) | Q(ad_receiver__user=self.request.user))
+        context_data["senders"] = ads_user.order_by("ad_sender__user").values_list("ad_sender__user", flat=True).distinct()
+        context_data["receivers"] = ads_user.order_by("ad_receiver").values_list("ad_receiver", flat=True).distinct()
+        context_data['selected_sender'] = self.request.GET.get('sender')
+        context_data['selected_receiver'] = self.request.GET.get('receiver')
+        context_data["selected_status"] = self.request.GET.get('status')
+        context_data["object_list"] = ads_user
+        page = self.request.GET.get('page')
+        paginator = Paginator(self.get_queryset(), self.paginate_by)
+        try:
+            ads = paginator.page(page)
+        except PageNotAnInteger:
+            ads = paginator.page(1)
+        except EmptyPage:
+            ads = paginator.page(paginator.num_pages)
+
+        context_data['ads'] = ads
+        context_data['paginator'] = paginator
+        return context_data
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #
+    #     context['categories'] = Ad.objects.order_by("category").values_list("category", flat=True).distinct()
+    #
+    #     context["selected_category"] = self.request.GET.get('category')
+    #     context['selected_status'] = self.request.GET.get('status')
+    #     page = self.request.GET.get('page')
+    #     paginator = Paginator(self.get_queryset(), self.paginate_by)
+    #     try:
+    #         ads = paginator.page(page)
+    #     except PageNotAnInteger:
+    #         ads = paginator.page(1)
+    #     except EmptyPage:
+    #         ads = paginator.page(paginator.num_pages)
+    #
+    #     context['ads'] = ads
+    #     context['paginator'] = paginator
+    #
+    #     return context
 
 
 class ExchangeProposalDetailView(DetailView):

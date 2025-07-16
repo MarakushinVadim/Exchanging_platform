@@ -19,6 +19,6 @@ def description_filter(description):
 
 @register.filter()
 def title_filter(title):
-    if len(title) > 21:
-        return f"{title[:18]}..."
+    if len(title) > 30:
+        return f"{title[:27]}..."
     return title

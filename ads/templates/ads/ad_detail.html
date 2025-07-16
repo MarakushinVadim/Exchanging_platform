@@ -26,7 +26,7 @@
             </div>
             <div class="btn-group">
                 {% if request.user != ad.user %}
-                <a href="{% url 'ads:exchange_proposal_create' %}">
+                <a href="{% url 'ads:exchange_proposal_create' ad.pk %}">
                     <button class="ad_detail_card_button_swap">Предлжить обмен</button></a>
                 {% else %}
                 <a href="{% url 'ads:ad_update' ad.pk %}">

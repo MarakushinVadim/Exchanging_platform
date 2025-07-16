@@ -8,16 +8,12 @@
     <h1 class="ad_list_title">Создание записи</h1>
     {% endif %}
     <div class="create-form">
-        {% csrf_token %}
-        {{ form.as_p }}
+        <form class="row" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="login-btn">Отправить</button>
+        </form>
     </div>
-    <button type="submit" class="login-btn">
-        {% if object %}
-        Изменить запись
-        {% else %}
-        Создать запись
-        {% endif %}
-    </button>
 </div>
 
 {% endblock %}

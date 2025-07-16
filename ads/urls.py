@@ -40,7 +40,7 @@ urlpatterns = [
     path("ad_detail/<int:pk>", AdDetailView.as_view(), name="ad_detail"),
     path("<int:pk>/ad_delete", AdDeleteView.as_view(), name="ad_delete"),
     path(
-        "exchange_proposal_create",
+        "exchange_proposal_create/<int:pk>",
         ExchangeProposalCreateView.as_view(),
         name="exchange_proposal_create",
     ),

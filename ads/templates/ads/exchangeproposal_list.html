@@ -1,31 +1,92 @@
-{% extends 'ads/base.html' %}
+{% load static %}
 {% load my_tags %}
-{% block content %}
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    {% for ep in object_list %}
-    <div class="col">
-        <div class="card" style="width: 18rem;">
-            <div class="card shadow-sm">
-                <img src="{{ ep.ad_sender.image_url | media_filter }}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h4 class="fw-light">{{ ep.ad_sender.title | title_filter }}</h4>
-                    <h4 class="fw-light">{{ ep.ad_receiver.title | title_filter }}</h4>
-                    <p class="card-text">{{ ep.comment | description_filter}}</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a type="button" class="btn btn-sm btn-outline-secondary"
-                               href="{% url 'ads:exchange_proposal_detail' ep.pk %}">Подробнее</a>
-                            <a type="button" class="btn btn-sm btn-outline-secondary"
-                               href="{% url 'ads:exchange_proposal_update' ep.pk %}">Изменить</a>
-                            <a type="button" class="btn btn-sm btn-outline-secondary"
-                               href="{% url 'ads:exchange_proposal_delete' ep.pk %}">Удалить</a>
-                        </div>
-                        <small class="text-body-secondary">{{ ep.created_at }}</small>
-                    </div>
-                </div>
-            </div>
-        </div>
+{% if messages %}
+
+<div class="alert">
+    {% for message in messages %}
+    <div class="alert-{{ message.tags }}">
+        {{ message }}
     </div>
     {% endfor %}
 </div>
-{% endblock %}
+{% endif %}
+{% include 'ads/includes/head.html' %}
+<div class="ad_list_top center">
+    {% include 'ads/includes/inc_menu.html' %}
+    <div class="ad_list_titler">
+        <h1 class="ad_list_title">Список предложений</h1>
+    </div>
+</div>
+<nav class="breadcrumbs center">
+    <a href="{% url 'ads:home' %}" class="breadcrumbs_link">Главная</a>
+</nav>
+<div class="center">
+    <div class="border"></div>
+</div>
+
+<form method="GET">
+    <div class="filter-box center" >
+        <div>
+            <label class="desc">Отправитель:</label>
+            <select name="sender" class="filter-box__select">
+                <option value="">Все категории</option>
+                {% for sender in senders %}
+                <option value="{{ sender }}"
+                        {% if sender == selected_sender %}selected{% endif %}>{{ sender }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label class="desc">Состояние:</label>
+            <select name="condition" class="filter-box__select">
+                <option value="">Все состояния</option>
+                <option value="{{ 'N' }}" {% if selected_condition == 'N' %}selected{% endif %}>Новое</option>
+                <option value="{{ 'U' }}" {% if selected_condition == 'U' %}selected{% endif %}>Б/У</option>
+            </select>
+        </div>
+        <button type="submit" class="ad_card_button" style="height: 30px;">Применить фильтр</button>
+    </div>
+    <div class="center">
+        <div class="border"></div>
+    </div>
+</form>
+
+<div class="ad_box center">
+    {% for ep in object_list %}
+    <div class="ad">
+        <img src="{{ ep.ad_sender.image_url | media_filter }}" alt="" class="ep-img">
+        <div class="ad_body">
+            <h3 class="ad_title">{{ ep.ad_sender.title | title_filter }}</h3>
+            <p class="ad_description">{{ ep.ad_sender.description | description_filter }}</p>
+            <p class="ad_description">Отправитель - {{ ep.ad_sender.user.username }}</p>
+        </div>
+        <img src="{{ ep.ad_receiver.image_url | media_filter }}" alt="" class="ep-img">
+        <div class="ad_body">
+            <h3 class="ad_title">{{ ep.ad_receiver.title | title_filter }}</h3>
+            <p class="ad_description">{{ ep.ad_receiver.description | description_filter }}</p>
+            <p class="ad_description">Получатель - {{ ep.ad_receiver.user.username }}</p>
+            <p class="ad_description">ad_sender__user - {{ ad_sender.user }}</p>
+        </div>
+    </div>
+    <a href="{% url 'ads:ad_detail' ep.pk %}" class="ep-link"><button class="ep_card_button">Подробнее</button></a>
+    <div class="border"></div>
+    {% empty %}
+    <h1 class="ad_list_title">Товары не найдены</h1>
+    {% endfor %}
+</div>
+<div class="pagination-box">
+    {% if ads.has_previous %}
+    <a href="?page={{ ads.previous_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_condition %}&condition={{ selected_condition }}{% endif %}" class="pagination-link">
+        Предыдущая
+    </a>
+    {% endif %}
+
+    Страница {{ ads.number }} из {{ ads.paginator.num_pages }}
+
+    {% if ads.has_next %}
+    <a href="?page={{ ads.next_page_number }}{% if selected_category %}&category={{ selected_category }}{% endif %}{% if selected_condition %}&condition={{ selected_condition }}{% endif %}" class="pagination-link">
+        Следующая
+    </a>
+    {% endif %}
+</div>
+</body>
