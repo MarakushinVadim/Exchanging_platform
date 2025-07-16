@@ -1,40 +1,35 @@
 {% load static %}
-    <header>
-        {% if user.is_authenticated %}
-        <h4>Пользователь: {{ user }}</h4>
+<header>
+    <nav class="top_menu center">
+        {% if not user.is_authenticated %}
+        <a href="{% url 'ads:login' %}" class="header_link">Вход</a>
+        <a href="{% url 'ads:register' %}" class="header_link">Регистрация</a>
         {% else %}
-        <h4>Авторизуйтесь</h4>
-        {% endif %}
-        <nav class="top_menu center">
-            {% if not user.is_authenticated %}
-            <a href="{% url 'ads:login' %}" class="header_link">Вход</a>
-            <a href="{% url 'ads:register' %}" class="header_link">Регистрация</a>
-            {% else %}
-            <a href="#" onclick="sendPostRequest()" class="header_link">Выход</a>
-            <form id="myForm" action="{% url 'ads:logout' %}" method="post" style="display:none;">
-                {% csrf_token %}
-            </form>
-            <script>
-                function sendPostRequest() {
-                  document.getElementById('myForm').submit();
-                }
-            </script>
-            {% endif %}
-        </nav>
-        <form method="get" action="{% url 'ads:ad_list' %}">
-            <input placeholder="Поиск..." type="text" name="q" value="{{ request.GET.q }}" class="header_input">
-            <button type="submit" style="display: none"></button>
+        <a href="#" onclick="sendPostRequest()" class="header_link">Выход</a>
+        <form id="myForm" action="{% url 'ads:logout' %}" method="post" style="display:none;">
+            {% csrf_token %}
         </form>
         <script>
-            document.querySelector('input[name="q"]').addEventListener('keyup', function(event) {
-                if (event.key === "Enter") {
-                    event.preventDefault();
-                    this.form.submit();
-                }
-            });
+            function sendPostRequest() {
+                document.getElementById('myForm').submit();
+            }
         </script>
-        <nav class="top_menu center">
-            <a href="{% url 'ads:ad_list' %}" class="header_link">Обьявления</a>
-            <a href="" class="header_link">Мои предложения</a>
-        </nav>
-    </header>
+        {% endif %}
+    </nav>
+    <form method="get" action="{% url 'ads:ad_list' %}">
+        <input placeholder="Поиск..." type="text" name="q" value="{{ request.GET.q }}" class="header_input">
+        <button type="submit" style="display: none"></button>
+    </form>
+    <script>
+        document.querySelector('input[name="q"]').addEventListener('keyup', function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                this.form.submit();
+            }
+        });
+    </script>
+    <nav class="top_menu center">
+        <a href="{% url 'ads:ad_list' %}" class="header_link">Обьявления</a>
+        <a href="" class="header_link">Мои предложения</a>
+    </nav>
+</header>
