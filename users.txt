@@ -1,0 +1,33 @@
+users = [
+    User.objects.create_user(
+        username='creative_anna',
+        email='creative.anna@example.com',
+        password='securepass123'
+    ),
+
+    User.objects.create_user(
+        username='happy_sergey',
+        email='happy.sergey@gmail.com',
+        password='strongpass456'
+    ),
+
+    User.objects.create_user(
+        username='smart_maria',
+        email='smart.maria@mail.ru',
+        password='securepassword789'
+    ),
+
+    User.objects.create_user(
+        username='tech_alex',
+        email='tech.alex@test.com',
+        password='alexpass111'
+    ),
+
+    User.objects.create_user(
+        username='art_katya',
+        email='art.katya@example.org',
+        password='designpass1234'
+    )
+]
+
+

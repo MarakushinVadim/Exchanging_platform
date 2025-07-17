@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseForbidden
@@ -180,16 +181,26 @@ class ExchangeProposalCreateView(CreateView):
 
 class ExchangeProposalListView(ListView):
     model = ExchangeProposal
+    context_object_name = 'proposals'
     paginate_by = 5
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        sender = self.request.GET.get("sender")
-        receiver = self.request.GET.get("receiver")
-        if sender:
-            queryset = queryset.filter(ad_sender__user=sender)
-        if receiver:
-            queryset = queryset.filter(ad_receiver=receiver)
+        user = self.request.user
+        sender_id = self.request.GET.get('sender')
+        receiver_id = self.request.GET.get('receiver')
+        status = self.request.GET.get('status')
+        queryset = queryset.filter(Q(ad_receiver__user=user) | Q(ad_sender__user=user))
+    
+        if sender_id:
+            queryset = queryset.filter(ad_sender__user_id=sender_id)
+
+        if receiver_id:
+            queryset = queryset.filter(ad_receiver__user_id=receiver_id)
+
+        if status:
+            queryset = queryset.filter(status=status)
+
         return queryset
 
 
@@ -197,11 +208,13 @@ class ExchangeProposalListView(ListView):
         context_data = super().get_context_data(*args, **kwargs)
         ads_user = ExchangeProposal.objects.filter(
             Q(ad_sender__user=self.request.user) | Q(ad_receiver__user=self.request.user))
-        context_data["senders"] = ads_user.order_by("ad_sender__user").values_list("ad_sender__user", flat=True).distinct()
-        context_data["receivers"] = ads_user.order_by("ad_receiver").values_list("ad_receiver", flat=True).distinct()
+
+        context_data['status_choices'] = ExchangeProposal.ExchangeChoices.choices
+
         context_data['selected_sender'] = self.request.GET.get('sender')
         context_data['selected_receiver'] = self.request.GET.get('receiver')
-        context_data["selected_status"] = self.request.GET.get('status')
+        context_data['selected_status'] = self.request.GET.get('status')
+
         context_data["object_list"] = ads_user
         page = self.request.GET.get('page')
         paginator = Paginator(self.get_queryset(), self.paginate_by)
@@ -216,39 +229,24 @@ class ExchangeProposalListView(ListView):
         context_data['paginator'] = paginator
         return context_data
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #
-    #     context['categories'] = Ad.objects.order_by("category").values_list("category", flat=True).distinct()
-    #
-    #     context["selected_category"] = self.request.GET.get('category')
-    #     context['selected_status'] = self.request.GET.get('status')
-    #     page = self.request.GET.get('page')
-    #     paginator = Paginator(self.get_queryset(), self.paginate_by)
-    #     try:
-    #         ads = paginator.page(page)
-    #     except PageNotAnInteger:
-    #         ads = paginator.page(1)
-    #     except EmptyPage:
-    #         ads = paginator.page(paginator.num_pages)
-    #
-    #     context['ads'] = ads
-    #     context['paginator'] = paginator
-    #
-    #     return context
-
 
 class ExchangeProposalDetailView(DetailView):
     model = ExchangeProposal
 
 
-class ExchangeProposalUpdateView(UpdateView):
-    model = ExchangeProposal
-    form_class = ExchangeProposalUpdateForm
-    success_url = reverse_lazy("ads:home")
+@login_required
+def accept_proposal(request, proposal_id):
+    proposal = get_object_or_404(ExchangeProposal, id=proposal_id)
+    if request.user == proposal.ad_receiver.user:
+        proposal.status = ExchangeProposal.ExchangeChoices.TAKEN
+        proposal.save()
+    return redirect('ads:exchange_proposal_list')
 
-    def dispatch(self, request, *args, **kwargs):
-        offer = self.get_object()
-        if offer.ad_receiver.user == request.user or offer.ad_sender.user == request.user:
-            return super().dispatch(request, *args, **kwargs)
-        return HttpResponseForbidden("Доступ запрещен")
+
+@login_required
+def reject_proposal(request, proposal_id):
+    proposal = get_object_or_404(ExchangeProposal, id=proposal_id)
+    if request.user == proposal.ad_receiver.user:
+        proposal.status = ExchangeProposal.ExchangeChoices.REJECTED
+        proposal.save()
+    return redirect('ads:exchange_proposal_list')

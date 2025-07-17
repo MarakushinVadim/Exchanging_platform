@@ -1,13 +1,58 @@
-{% extends 'ads/base.html' %}
+{% include 'ads/includes/head.html' %}
 {% load my_tags %}
 {% block content %}
 
-<div class="card-body">
-    <h5 class="card-title">Предлагается{{ object.ad_sender }}</h5>
-    <p class="card-text">{{ object.ad_sender.title }}</p>
+<div class="ad_detail_top center">
+    {% include 'ads/includes/inc_menu.html' %}
+    <nav class="breadcrumbs center">
+        <a href="{% url 'ads:home' %}" class="breadcrumbs_link">Главная</a>
+    </nav>
+    <div class="center">
+        <div class="border"></div>
+    </div>
+    <div class="prop-detail-box">
+        <div class="ad prop-ad">
+            <a href="{{ object.ad_sender.image_url | media_filter }}" target="_self">
+                <img src="{{ object.ad_sender.image_url | media_filter }}" alt="" class="ad_detail_img">
+            </a>
+            <div class="ad_body_detail" style="justify-content: flex-start;">
+                <h3 class="ad_title">{{ object.ad_sender.title }}</h3>
+                <p class="ad_description">{{ object.ad_sender.description }}</p>
+                <div class="about_ad_group">
+                    <p class="ad_description">Создано пользователем - {{ object.ad_sender.user.username }}</p>
+                    <p class="ad_description">Категория - {{ object.ad_sender.category }}</p>
+                    <p class="ad_description">Состояние - {{ object.ad_sender.get_condition_display }}</p>
+                    <p class="ad_description">Опубликовано - {{ object.ad_sender.created_at }}</p>
+                </div>
+            </div>
 
-    <h5 class="card-title">Получить{{ object.ad_receiver }}</h5>
-    <p class="card-text">{{ object.ad_receiver.title }}</p>
+        </div>
+        <div class="ad prop-ad">
+            <a href="{{ object.ad_receiver.image_url | media_filter }}" target="_self">
+                <img src="{{ object.ad_receiver.image_url | media_filter }}" alt="" class="ad_detail_img">
+            </a>
+            <div class="ad_body_detail" style="justify-content: flex-start;">
+                <h3 class="ad_title">{{ object.ad_receiver.title }}</h3>
+                <p class="ad_description">{{ object.ad_receiver.description }}</p>
+                <div class="about_ad_group">
+                    <p class="ad_description">Создано пользователем - {{ object.ad_receiver.user.username }}</p>
+                    <p class="ad_description">Категория - {{ object.ad_receiver.category }}</p>
+                    <p class="ad_description">Состояние - {{ object.ad_receiver.get_condition_display }}</p>
+                    <p class="ad_description">Опубликовано - {{ object.ad_receiver.created_at }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="btn-group prop-btn">
+            {% if object.status == 'A' and request.user == object.ad_receiver.user%}
+            <a href="{% url 'ads:accept_proposal' object.pk %}">
+                <button class="ad_detail_card_button_change">Принять</button></a>
+            <a href="{% url 'ads:reject_proposal' object.pk %}">
+                <button class="ad_detail_card_button_del">Отклонить</button></a>
+            {% endif %}
+        </div>
+    </div>
 </div>
+
+
 
 {% endblock %}

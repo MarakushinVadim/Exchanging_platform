@@ -42,7 +42,6 @@ header {
   font-style: normal;
   font-weight: 400;
   line-height: 20px;
-  letter-spacing: 0%;
   text-align: left;
   color: #FFFFFF;
   padding-left: 32px;
@@ -454,6 +453,34 @@ header {
 
 .ep-link {
   align-self: center;
+}
+
+.prop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.prop--card {
+  display: flex;
+  grid-column: span 1;
+  align-items: flex-start;
+  column-gap: 12px;
+}
+
+.prop-detail-box {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.prop-ad {
+  margin-bottom: 24px;
+  border-bottom: 2px solid rgb(202, 205, 216);
+}
+
+.prop-btn {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 32px;
 }
 
 input:-webkit-autofill,

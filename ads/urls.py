@@ -13,8 +13,7 @@ from ads.views import (
     ExchangeProposalCreateView,
     ExchangeProposalListView,
     ExchangeProposalDetailView,
-    ExchangeProposalUpdateView,
-    AdDeleteView,
+    AdDeleteView, accept_proposal, reject_proposal,
 )
 
 app_name = AdsConfig.name
@@ -54,9 +53,6 @@ urlpatterns = [
         ExchangeProposalDetailView.as_view(),
         name="exchange_proposal_detail",
     ),
-    path(
-        "<int:pk>/exchange_proposal_update",
-        ExchangeProposalUpdateView.as_view(),
-        name="exchange_proposal_update",
-    ),
+    path('proposal/<int:proposal_id>/accept/', accept_proposal, name='accept_proposal'),
+    path('proposal/<int:proposal_id>/reject/', reject_proposal, name='reject_proposal'),
 ]

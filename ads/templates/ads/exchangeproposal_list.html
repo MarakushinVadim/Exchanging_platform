@@ -29,19 +29,30 @@
         <div>
             <label class="desc">Отправитель:</label>
             <select name="sender" class="filter-box__select">
-                <option value="">Все категории</option>
-                {% for sender in senders %}
-                <option value="{{ sender }}"
-                        {% if sender == selected_sender %}selected{% endif %}>{{ sender }}</option>
+                <option value="">Все отправители</option>
+                {% for proposal in proposals %}
+                <option value="{{ proposal.ad_sender.user.id }}"
+                        {% if proposal.ad_sender.user.id == selected_sender %}selected{% endif %}>{{ proposal.ad_sender.user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label class="desc">Получатель:</label>
+            <select name="receiver" class="filter-box__select">
+                <option value="">Все получатели</option>
+                {% for proposal in proposals %}
+                <option value="{{ proposal.ad_receiver.user.id }}"
+                        {% if proposal.ad_receiver.user.id == selected_receiver %}selected{% endif %}>{{ proposal.ad_receiver.user.username }}</option>
                 {% endfor %}
             </select>
         </div>
         <div>
             <label class="desc">Состояние:</label>
-            <select name="condition" class="filter-box__select">
+            <select name="status" class="filter-box__select">
                 <option value="">Все состояния</option>
-                <option value="{{ 'N' }}" {% if selected_condition == 'N' %}selected{% endif %}>Новое</option>
-                <option value="{{ 'U' }}" {% if selected_condition == 'U' %}selected{% endif %}>Б/У</option>
+                <option value="{{ 'A' }}" {% if selected_status == 'A' %}selected{% endif %}>ожидает</option>
+                <option value="{{ 'T' }}" {% if selected_status == 'T' %}selected{% endif %}>принята</option>
+                <option value="{{ 'R' }}" {% if selected_status == 'R' %}selected{% endif %}>отклонена</option>
             </select>
         </div>
         <button type="submit" class="ad_card_button" style="height: 30px;">Применить фильтр</button>
@@ -52,23 +63,27 @@
 </form>
 
 <div class="ad_box center">
-    {% for ep in object_list %}
-    <div class="ad">
+    {% for ep in proposals %}
+    <div class="prop">
+        <div class="prop--card">
         <img src="{{ ep.ad_sender.image_url | media_filter }}" alt="" class="ep-img">
         <div class="ad_body">
             <h3 class="ad_title">{{ ep.ad_sender.title | title_filter }}</h3>
             <p class="ad_description">{{ ep.ad_sender.description | description_filter }}</p>
             <p class="ad_description">Отправитель - {{ ep.ad_sender.user.username }}</p>
         </div>
+        </div>
+        <div class="prop--card">
         <img src="{{ ep.ad_receiver.image_url | media_filter }}" alt="" class="ep-img">
         <div class="ad_body">
             <h3 class="ad_title">{{ ep.ad_receiver.title | title_filter }}</h3>
             <p class="ad_description">{{ ep.ad_receiver.description | description_filter }}</p>
             <p class="ad_description">Получатель - {{ ep.ad_receiver.user.username }}</p>
-            <p class="ad_description">ad_sender__user - {{ ad_sender.user }}</p>
+        </div>
         </div>
     </div>
-    <a href="{% url 'ads:ad_detail' ep.pk %}" class="ep-link"><button class="ep_card_button">Подробнее</button></a>
+    <p class="ad_description">Статус заявки - {{ ep.get_status_display }}</p>
+    <a href="{% url 'ads:exchange_proposal_detail' ep.pk %}" class="ep-link"><button class="ep_card_button">Подробнее</button></a>
     <div class="border"></div>
     {% empty %}
     <h1 class="ad_list_title">Товары не найдены</h1>

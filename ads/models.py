@@ -46,9 +46,9 @@ class Ad(models.Model):
 class ExchangeProposal(models.Model):
 
     class ExchangeChoices(models.TextChoices):
-        AWAITS = "A", "ожидает"
-        TAKEN = "T", "принята"
-        REJECTED = "R", "отклонена"
+        AWAITS = "A", "Ожидает"
+        TAKEN = "T", "Принята"
+        REJECTED = "R", "Отклонена"
 
     id = models.AutoField(primary_key=True, verbose_name="id")
     ad_sender = models.ForeignKey(
