@@ -109,11 +109,15 @@ class AdListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['categories'] = Ad.objects.order_by("category").values_list("category", flat=True).distinct()
+        context["categories"] = (
+            Ad.objects.order_by("category")
+            .values_list("category", flat=True)
+            .distinct()
+        )
 
-        context["selected_category"] = self.request.GET.get('category')
-        context['selected_status'] = self.request.GET.get('status')
-        page = self.request.GET.get('page')
+        context["selected_category"] = self.request.GET.get("category")
+        context["selected_status"] = self.request.GET.get("status")
+        page = self.request.GET.get("page")
         paginator = Paginator(self.get_queryset(), self.paginate_by)
         try:
             ads = paginator.page(page)
@@ -122,8 +126,8 @@ class AdListView(ListView):
         except EmptyPage:
             ads = paginator.page(paginator.num_pages)
 
-        context['ads'] = ads
-        context['paginator'] = paginator
+        context["ads"] = ads
+        context["paginator"] = paginator
 
         return context
 
@@ -164,27 +168,27 @@ class ExchangeProposalCreateView(CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user
+        kwargs["user"] = self.request.user
         return kwargs
 
     def get_initial(self):
         initial = super().get_initial()
-        user_ad = Ad.objects.get(id=self.kwargs['pk'])
-        initial['ad_receiver'] = user_ad
+        user_ad = Ad.objects.get(id=self.kwargs["pk"])
+        initial["ad_receiver"] = user_ad
         return initial
 
 
 class ExchangeProposalListView(ListView):
     model = ExchangeProposal
-    context_object_name = 'proposals'
+    context_object_name = "proposals"
     paginate_by = 5
 
     def get_queryset(self):
         queryset = super().get_queryset()
         user = self.request.user
-        sender_id = self.request.GET.get('sender')
-        receiver_id = self.request.GET.get('receiver')
-        status = self.request.GET.get('status')
+        sender_id = self.request.GET.get("sender")
+        receiver_id = self.request.GET.get("receiver")
+        status = self.request.GET.get("status")
         queryset = queryset.filter(Q(ad_receiver__user=user) | Q(ad_sender__user=user))
 
         if sender_id:
@@ -201,16 +205,18 @@ class ExchangeProposalListView(ListView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         ads_user = ExchangeProposal.objects.filter(
-            Q(ad_sender__user=self.request.user) | Q(ad_receiver__user=self.request.user))
+            Q(ad_sender__user=self.request.user)
+            | Q(ad_receiver__user=self.request.user)
+        )
 
-        context_data['status_choices'] = ExchangeProposal.ExchangeChoices.choices
+        context_data["status_choices"] = ExchangeProposal.ExchangeChoices.choices
 
-        context_data['selected_sender'] = self.request.GET.get('sender')
-        context_data['selected_receiver'] = self.request.GET.get('receiver')
-        context_data['selected_status'] = self.request.GET.get('status')
+        context_data["selected_sender"] = self.request.GET.get("sender")
+        context_data["selected_receiver"] = self.request.GET.get("receiver")
+        context_data["selected_status"] = self.request.GET.get("status")
 
         context_data["object_list"] = ads_user
-        page = self.request.GET.get('page')
+        page = self.request.GET.get("page")
         paginator = Paginator(self.get_queryset(), self.paginate_by)
         try:
             ads = paginator.page(page)
@@ -219,8 +225,8 @@ class ExchangeProposalListView(ListView):
         except EmptyPage:
             ads = paginator.page(paginator.num_pages)
 
-        context_data['ads'] = ads
-        context_data['paginator'] = paginator
+        context_data["ads"] = ads
+        context_data["paginator"] = paginator
         return context_data
 
 
@@ -234,7 +240,7 @@ def accept_proposal(request, proposal_id):
     if request.user == proposal.ad_receiver.user:
         proposal.status = ExchangeProposal.ExchangeChoices.TAKEN
         proposal.save()
-    return redirect('ads:exchange_proposal_list')
+    return redirect("ads:exchange_proposal_list")
 
 
 @login_required
@@ -243,4 +249,4 @@ def reject_proposal(request, proposal_id):
     if request.user == proposal.ad_receiver.user:
         proposal.status = ExchangeProposal.ExchangeChoices.REJECTED
         proposal.save()
-    return redirect('ads:exchange_proposal_list')
+    return redirect("ads:exchange_proposal_list")
