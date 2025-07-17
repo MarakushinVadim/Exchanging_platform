@@ -42,6 +42,9 @@
                 </div>
             </div>
         </div>
+        <div class="ad_body_detail">
+            <p class="ad_description">{{ object.comment }}</p>
+        </div>
         <div class="btn-group prop-btn">
             {% if object.status == 'A' and request.user == object.ad_receiver.user%}
             <a href="{% url 'ads:accept_proposal' object.pk %}">

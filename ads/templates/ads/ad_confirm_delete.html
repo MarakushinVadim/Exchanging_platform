@@ -10,25 +10,29 @@
         {% endfor %}
     </div>
 {% endif %}
-<div class="cotainer">
-    <div class="row">
-        <div class="col-12">
-            <form class="row" method="post" enctype="multipart/form-data">
-                <div class="card">
-                    <p class="card-text">Действительно хотите удалить {{ ad.title }}?</p>
-                    <div class="card-body">
-                        {% csrf_token %}
-                    </div>
-                    <button type="submit" class="btn btn-warning">
-                        Удалить товар
-                    </button>
-                     <a type="button"
-                        class="btn btn-lg btn btn-outline-warning"
-                        href="{% url 'ads:home' %}">
-                         Отмена</a>
-                </div>
-            </form>
+<div>
+    {% if messages %}
+    <div class="alert">
+        {% for message in messages %}
+        <div class="alert-{{ message.tags }}">
+            {{ message }}
         </div>
+        {% endfor %}
     </div>
+    {% endif %}
+    <form class="row" method="post" enctype="multipart/form-data">
+        <div class="card-del">
+            <h1 class="ad_title del">Действительно хотите удалить {{ ad.title }}?</h1>
+            <div class="card-body">
+                {% csrf_token %}
+            </div>
+            <div class="del-btn-group">
+                <button type="submit" class="ad_detail_card_button_del">
+                    Удалить товар
+                </button>
+                <button class="ad_detail_card_button_change"><a type="button" href="{% url 'ads:home' %}"></a>Отмена</button>
+            </div>
+        </div>
+    </form>
 </div>
 {% endblock %}

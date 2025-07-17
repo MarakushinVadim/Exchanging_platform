@@ -2,7 +2,6 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.http import HttpResponseForbidden
 from django.views.generic import (
     TemplateView,
     CreateView,
@@ -17,15 +16,15 @@ from ads.forms import (
     AdForm,
     CustomRegistrationForm,
     CustomLoginForm,
-    ExchangeProposalForm, ExchangeProposalUpdateForm,
+    ExchangeProposalForm,
 )
 from ads.models import Ad, ExchangeProposal
 from django.contrib.auth.views import LoginView
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 
 
 class OwnerMixin(LoginRequiredMixin):
@@ -105,7 +104,6 @@ class AdListView(ListView):
         if condition:
             queryset = queryset.filter(condition=condition)
 
-
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -129,13 +127,11 @@ class AdListView(ListView):
 
         return context
 
+
 class AdUpdateView(OwnerMixin, UpdateView):
     model = Ad
     form_class = AdForm
     success_url = reverse_lazy("ads:home")
-
-
-
 
 
 class AdDeleteView(OwnerMixin, DeleteView):
@@ -178,7 +174,6 @@ class ExchangeProposalCreateView(CreateView):
         return initial
 
 
-
 class ExchangeProposalListView(ListView):
     model = ExchangeProposal
     context_object_name = 'proposals'
@@ -191,7 +186,7 @@ class ExchangeProposalListView(ListView):
         receiver_id = self.request.GET.get('receiver')
         status = self.request.GET.get('status')
         queryset = queryset.filter(Q(ad_receiver__user=user) | Q(ad_sender__user=user))
-    
+
         if sender_id:
             queryset = queryset.filter(ad_sender__user_id=sender_id)
 
@@ -202,7 +197,6 @@ class ExchangeProposalListView(ListView):
             queryset = queryset.filter(status=status)
 
         return queryset
-
 
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)

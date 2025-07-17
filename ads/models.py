@@ -44,7 +44,6 @@ class Ad(models.Model):
 
 
 class ExchangeProposal(models.Model):
-
     class ExchangeChoices(models.TextChoices):
         AWAITS = "A", "Ожидает"
         TAKEN = "T", "Принята"

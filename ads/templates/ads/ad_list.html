@@ -1,20 +1,19 @@
 {% load static %}
 {% load my_tags %}
 {% if messages %}
-
-<div class="alert">
-    {% for message in messages %}
-    <div class="alert-{{ message.tags }}">
-        {{ message }}
-    </div>
-    {% endfor %}
-</div>
 {% endif %}
 {% include 'ads/includes/head.html' %}
 <div class="ad_list_top center">
     {% include 'ads/includes/inc_menu.html' %}
     <div class="ad_list_titler">
         <h1 class="ad_list_title">Список обьявлений</h1>
+    </div>
+    <div class="alert" style="color: #FFFFFF">
+        {% for message in messages %}
+        <div class="alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
     </div>
 </div>
 <nav class="breadcrumbs center">
